@@ -2,20 +2,26 @@ import { useState } from "react";
 import "./RecipeList";
 
 const RecipeItem = ({recipe,handleDelete,fetchAllRecipes}) => {
-    const [update,setUpdate] = useState({});
+    const [itemList,setItemList] = useState ({});
+    const [update,setUpdate] = useState({recipe});
+
     const handleSubmit = (event) => {
         event.preventDefault();  
         const newItem =    {
           ...update,
-          id: fetchAllRecipes,
+          id: recipe,
           isDone : false
         }
-        
+        setItemList([
+          ...itemList,
+          newItem
+        ])
       }
     const handleChange = (recipe) => {
-        const {value, name} = recipe.target
+        console.log('handleChange');
+        const {value, name} = recipe.name
         setUpdate({
-          [name]: value
+            [name]: value
         })
         fetch (`${process.env.REACT_APP_API_URL}/recipes/${recipe.id}`, {
             method: 'UPDATE',
@@ -31,7 +37,7 @@ const RecipeItem = ({recipe,handleDelete,fetchAllRecipes}) => {
         <li key={recipe.id}>
         {recipe.title}
         <form onSubmit={handleSubmit}>
-            <input type="text" value={recipe.tile}/>
+            <input type="text" value={recipe.name}/>
         </form>
         <button onClick={()=> handleDelete(recipe)}>DELETE</button>
         <button onClick={()=> handleChange(recipe)}>UPDATE</button>

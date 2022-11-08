@@ -32,7 +32,9 @@ const RecipeList = ({recipeList,fetchAllRecipes},) => {
     return ( 
         <ul className="recipe-list">
             {recipeList.map(recipe => (
-                <RecipeItem handleDelete={handleDelete} recipe={recipe}/>
+                <RecipeItem handleDelete={handleDelete} recipe={recipe}
+                key={recipe.id} fetchAllRecipes={fetchAllRecipes}
+                />
             ))}
         </ul>
      );
